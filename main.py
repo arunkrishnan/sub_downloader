@@ -11,7 +11,26 @@ import gzip
 import tempfile
 import shutil
 import os
+import argparse
 
+from pprint import pprint
+
+def find_movies(loc):
+  
+  result = []
+  extensions = ['.avi','.mp4']
+  
+  for (base_dir,sub_dir,files) in os.walk(loc):
+    for element in files:
+      if element[-4:] in extensions:
+	srt_file = os.path.isfile(base_dir+'/'+element[:-4]+'.srt')
+	if not srt_file:
+	  result.append(base_dir+'/'+element)
+	  
+  return result
+
+
+  
 def main():
   
   imdb_id = '0482571' # For testing
@@ -60,4 +79,5 @@ def main():
     shutil.rmtree(tempdir)
 
 if "__main__" == __name__:
-    main()
+    
+    find_movies('/home/arun/Videos')
